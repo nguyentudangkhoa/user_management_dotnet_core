@@ -29,7 +29,7 @@ namespace test_dotnet_core_migration.Services
 
 
         public void Register(User user) { 
-            string query = @"INSERT INTO users(name, email, password, role_id) VALUES(@name, @email, @password, @roles_id);";
+            string query = @"INSERT INTO users(name, email, password, role_id) VALUES(@name, @email, @password, @role_id);";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
@@ -43,7 +43,7 @@ namespace test_dotnet_core_migration.Services
                     mySqlCommand.Parameters.AddWithValue("name", user.Name);
                     mySqlCommand.Parameters.AddWithValue("email", user.Email);
                     mySqlCommand.Parameters.AddWithValue("password", BCryptNet.HashPassword(user.Password));
-                    mySqlCommand.Parameters.AddWithValue("roles_id", user.RoleId);
+                    mySqlCommand.Parameters.AddWithValue("role_id", user.RoleId);
 
                     reader = mySqlCommand.ExecuteReader();
                     table.Load(reader);

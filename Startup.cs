@@ -48,7 +48,7 @@ namespace test_dotnet_core_migration
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "test_dotnet_core_migration", Version = "v2" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "test_dotnet_core_migration", Version = "v3" });
             });
 
             services.AddScoped<IUserService, UserService>();
