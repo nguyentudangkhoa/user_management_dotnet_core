@@ -30,7 +30,7 @@ namespace test_dotnet_core_migration.Controllers
 
         [HttpGet]
         public JsonResult Get(){
-            string query = @"SELECT name, email, role_id FROM users";
+            string query = @"SELECT * FROM users";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
