@@ -43,7 +43,7 @@ namespace test_dotnet_core_migration.Services
                     mySqlCommand.Parameters.AddWithValue("name", user.Name);
                     mySqlCommand.Parameters.AddWithValue("email", user.Email);
                     mySqlCommand.Parameters.AddWithValue("password", BCryptNet.HashPassword(user.Password));
-                    mySqlCommand.Parameters.AddWithValue("roles_id", user.RolesId);
+                    mySqlCommand.Parameters.AddWithValue("roles_id", user.RoleId);
 
                     reader = mySqlCommand.ExecuteReader();
                     table.Load(reader);
