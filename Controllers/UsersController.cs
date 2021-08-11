@@ -52,7 +52,7 @@ namespace test_dotnet_core_migration.Controllers
 
         [HttpGet("{id}")]
         public JsonResult GetSingle(int id){
-            string query = @"SELECT name, email, role_id FROM users where id=@id limit 1;";
+            string query = @"SELECT * FROM users where id=@id limit 1;";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
