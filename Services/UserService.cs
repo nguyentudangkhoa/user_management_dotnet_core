@@ -26,8 +26,10 @@ namespace test_dotnet_core_migration.Services
             _webHostEnvironment = webHostEnvironment;
         }
 
+
+
         public void Register(User user) { 
-            string query = @"INSERT INTO users(name, email, password, roles_id) VALUES(@name, @email, @password, @roles_id);";
+            string query = @"INSERT INTO users(name, email, password, role_id) VALUES(@name, @email, @password, @roles_id);";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");

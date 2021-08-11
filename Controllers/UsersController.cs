@@ -30,7 +30,7 @@ namespace test_dotnet_core_migration.Controllers
 
         [HttpGet]
         public JsonResult Get(){
-            string query = @"SELECT name, email, roles_id FROM users";
+            string query = @"SELECT name, email, role_id FROM users";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
@@ -52,7 +52,7 @@ namespace test_dotnet_core_migration.Controllers
 
         [HttpGet("{id}")]
         public JsonResult GetSingle(int id){
-            string query = @"SELECT name, email, roles_id FROM users where id=@id limit 1;";
+            string query = @"SELECT name, email, role_id FROM users where id=@id limit 1;";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
@@ -83,7 +83,7 @@ namespace test_dotnet_core_migration.Controllers
         [HttpPut]
         public JsonResult Put(User user){
             string query = @"UPDATE users
-                            SET name=@name, email=@email, password=@password, roles_id=@roles_id
+                            SET name=@name, email=@email, password=@password, role_id=@role_id
                             WHERE id=@id";
 
             DataTable table = new DataTable();
@@ -99,7 +99,7 @@ namespace test_dotnet_core_migration.Controllers
                     mySqlCommand.Parameters.AddWithValue("name", user.Name);
                     mySqlCommand.Parameters.AddWithValue("email", user.Email);
                     mySqlCommand.Parameters.AddWithValue("password", user.Password);
-                    mySqlCommand.Parameters.AddWithValue("roles_id", user.RolesId);
+                    mySqlCommand.Parameters.AddWithValue("role_id", user.RoleId);
 
                     reader = mySqlCommand.ExecuteReader();
                     table.Load(reader);

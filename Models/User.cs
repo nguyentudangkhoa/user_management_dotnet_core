@@ -26,6 +26,6 @@ namespace test_dotnet_core_migration.Models
         public DateTime Updated { get; set; }
 
         [Required]
-        public int RolesId { get; set; }
+        public int RoleId { get; set; }
     }
 }
