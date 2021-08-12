@@ -8,6 +8,7 @@ namespace test_dotnet_core_migration.Models
 {
     public class User
     {
+         private DateTime _date = DateTime.Now;
         [Required]
         [Key]
         public int Id { get; set; }
@@ -26,11 +27,11 @@ namespace test_dotnet_core_migration.Models
 
         public string Password { get; set; }
 
-        public DateTime Created { get; set; }
-
-        public DateTime Updated { get; set; }
+        public DateTime created_at { get; set; }
+        
+        public DateTime updated_at { get; set; }
 
         [Required]
-        public int RoleId { get; set; }
+        public int Role_Id { get; set; }
     }
 }

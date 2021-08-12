@@ -42,7 +42,7 @@ namespace test_dotnet_core_migration.Controllers
         [HttpPost]
         public JsonResult Post(User user){
             if(user.Password == null) {
-                return new JsonResult("Vui long nhap password");
+                return new JsonResult("Password is required");
             }
 
             _userService.addUser(user);

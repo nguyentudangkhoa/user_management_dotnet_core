@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "dZTPy+wE9GqnRrJfBbe8udSXOPqlhiMwwL4BXqwiPHIskHZEMZ5scEIMlBRSdfPyALrYbKPR2yBOMY/c03qnxg==",
+  "dgSpecHash": "FahXiJFENMK2kfhny6r2jJDFJcktn0k/pgkHQzsSM5i7uIQa9Jb6uIP62mUDd7sDlP32mhwqF2jyl9bIWI8JIg==",
   "success": true,
   "projectFilePath": "/Users/nguyentudangkhoa/Downloads/test-vue/user_management_dotnet/test-dotnet-core-migration.csproj",
   "expectedPackageFiles": [
@@ -75,8 +75,10 @@
     "/Users/nguyentudangkhoa/.nuget/packages/microsoft.win32.systemevents/4.7.0/microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/mysql.data/8.0.26/mysql.data.8.0.26.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/mysql.data.entityframeworkcore/8.0.22/mysql.data.entityframeworkcore.8.0.22.nupkg.sha512",
+    "/Users/nguyentudangkhoa/.nuget/packages/mysqlconnector/1.3.10/mysqlconnector.1.3.10.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/newtonsoft.json/12.0.2/newtonsoft.json.12.0.2.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/newtonsoft.json.bson/1.0.2/newtonsoft.json.bson.1.0.2.nupkg.sha512",
+    "/Users/nguyentudangkhoa/.nuget/packages/pomelo.entityframeworkcore.mysql/5.0.1/pomelo.entityframeworkcore.mysql.5.0.1.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/runtime.native.system/4.3.0/runtime.native.system.4.3.0.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/swashbuckle.aspnetcore/5.6.3/swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/swashbuckle.aspnetcore.swagger/5.6.3/swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using Microsoft.AspNetCore.Http;
+using test_dotnet_core_migration.Helpers;
 
 namespace test_dotnet_core_migration.Services
 {
@@ -26,6 +27,8 @@ namespace test_dotnet_core_migration.Services
         String login(User user);
 
         DataTable getLoginUser();
+
+        User GetById(int id);
     }
     public class UserService : IUserService
     {
@@ -33,15 +36,20 @@ namespace test_dotnet_core_migration.Services
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
+
+        private DataContext _context;
         private ISession _session => _httpContextAccessor.HttpContext.Session;
 
         public UserService(IConfiguration configuration,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        DataContext context
+        )
         {
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
             _webHostEnvironment = webHostEnvironment;
+            _context = context;
         }
 
         public DataTable getUser()
@@ -91,7 +99,8 @@ namespace test_dotnet_core_migration.Services
         }
 
         public void addUser(User user) {
-            string query = @"INSERT INTO users(name, email, firstname, lastname, status, password, role_id) VALUES(@name, @email, @firstname, @lastname, @status, @password, @role_id);";
+            string query = @"INSERT INTO users(name, email, firstname, lastname, status, password, role_id) 
+                            VALUES(@name, @email, @firstname, @lastname, @status, @password, @role_id);";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
@@ -108,7 +117,7 @@ namespace test_dotnet_core_migration.Services
                     mySqlCommand.Parameters.AddWithValue("lastname", user.LastName);
                     mySqlCommand.Parameters.AddWithValue("status", user.Status);
                     mySqlCommand.Parameters.AddWithValue("password", BCryptNet.HashPassword(user.Password));
-                    mySqlCommand.Parameters.AddWithValue("role_id", user.RoleId);
+                    mySqlCommand.Parameters.AddWithValue("role_id", user.Role_Id);
 
                     reader = mySqlCommand.ExecuteReader();
                     table.Load(reader);
@@ -161,7 +170,7 @@ namespace test_dotnet_core_migration.Services
                     if (user.Password != null){
                         mySqlCommand.Parameters.AddWithValue("password", BCryptNet.HashPassword(user.Password));
                     }
-                    mySqlCommand.Parameters.AddWithValue("role_id", user.RoleId);
+                    mySqlCommand.Parameters.AddWithValue("role_id", user.Role_Id);
 
                     reader = mySqlCommand.ExecuteReader();
                     table.Load(reader);
@@ -198,7 +207,7 @@ namespace test_dotnet_core_migration.Services
         }
 
         public DataTable getUserByEmail(string email) {
-            string query = @"select u.id, u.name,u.email,u.firstname,u.lastname,u.password,u.status,u.created_at,u.updated_at,r.displayname as role
+            string query = @"select u.id, u.name,u.email,u.firstname,u.lastname,u.password,u.status,u.created_at,u.updated_at,r.displayname as role, r.permission as permission
                             from users as u join roles as r on r.id = u.role_id
                             where email=@email limit 1;";
 
@@ -223,19 +232,19 @@ namespace test_dotnet_core_migration.Services
 
         public String login(User user)
         {
-            if(this.getUserByEmail(user.Email).Rows.Count == 0) {
+            var getUser = _context.users.SingleOrDefault(x => x.Email == user.Email);
+            if(getUser == null) {
                 return "Wrong email or the user not exist";
             }
 
-            var dbUser = this.getUserByEmail(user.Email).Rows[0]["password"];
-            bool checkPassword = BCryptNet.Verify(user.Password, dbUser.ToString());
+            bool checkPassword = BCryptNet.Verify(user.Password, getUser.Password);
 
             if(! checkPassword) {
                 return "Wrong password";
             }
 
             _session.SetString("user_name", user.Name);
-            _session.SetString("email", this.getUserByEmail(user.Email).Rows[0]["email"].ToString());
+            _session.SetString("email", getUser.Email);
 
             return "Login successful";
         }
@@ -246,6 +255,18 @@ namespace test_dotnet_core_migration.Services
             }
 
             return this.getUserByEmail(_session.GetString("email"));
+        }
+
+        public User GetById(int id)
+        {
+            return getUser(id);
+        }
+
+        private User getUser(int id)
+        {
+            var user = _context.users.Find(id);
+            if (user == null) throw new KeyNotFoundException("User not found");
+            return user;
         }
     }
 }

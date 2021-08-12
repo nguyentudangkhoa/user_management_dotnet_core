@@ -293,3 +293,5 @@
 /Users/nguyentudangkhoa/Downloads/test-vue/user_management_dotnet/obj/Debug/net5.0/test-dotnet-core-migration.pdb
 /Users/nguyentudangkhoa/Downloads/test-vue/user_management_dotnet/obj/Debug/net5.0/test-dotnet-core-migration.genruntimeconfig.cache
 /Users/nguyentudangkhoa/Downloads/test-vue/user_management_dotnet/bin/Debug/net5.0/BCrypt.Net-Next.dll
+/Users/nguyentudangkhoa/Downloads/test-vue/user_management_dotnet/bin/Debug/net5.0/MySqlConnector.dll
+/Users/nguyentudangkhoa/Downloads/test-vue/user_management_dotnet/bin/Debug/net5.0/Pomelo.EntityFrameworkCore.MySql.dll
