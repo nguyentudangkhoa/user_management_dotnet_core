@@ -83,7 +83,13 @@ namespace test_dotnet_core_migration.Controllers
         [HttpPut]
         public JsonResult Put(User user){
             string query = @"UPDATE users
-                            SET name=@name, email=@email, password=@password, role_id=@role_id
+                            SET name=@name,
+                                email=@email,
+                                firstname=@firstname,
+                                lastname=@lastname,
+                                status=@status,
+                                password=@password,
+                                role_id=@role_id
                             WHERE id=@id";
 
             DataTable table = new DataTable();
@@ -98,6 +104,9 @@ namespace test_dotnet_core_migration.Controllers
                     mySqlCommand.Parameters.AddWithValue("id", user.Id);
                     mySqlCommand.Parameters.AddWithValue("name", user.Name);
                     mySqlCommand.Parameters.AddWithValue("email", user.Email);
+                    mySqlCommand.Parameters.AddWithValue("firstname", user.FirstName);
+                    mySqlCommand.Parameters.AddWithValue("lastname", user.LastName);
+                    mySqlCommand.Parameters.AddWithValue("status", user.Status);
                     mySqlCommand.Parameters.AddWithValue("password", user.Password);
                     mySqlCommand.Parameters.AddWithValue("role_id", user.RoleId);
 
@@ -137,6 +146,12 @@ namespace test_dotnet_core_migration.Controllers
             }
 
             return new JsonResult("Delete customer point successful");
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public JsonResult Login(User user){
+            return new JsonResult(_userService.login(user));
         }
     }
 }

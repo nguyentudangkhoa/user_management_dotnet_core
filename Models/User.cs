@@ -18,6 +18,12 @@ namespace test_dotnet_core_migration.Models
         [Required]
         public string Email { get; set; }
 
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public int Status { get; set; }
+
         [Required]
         public string Password { get; set; }
 

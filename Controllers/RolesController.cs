@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using test_dotnet_core_migration.Models;
+using Newtonsoft.Json.Linq;
 
 namespace test_dotnet_core_migration.Controllers
 {
@@ -71,7 +72,7 @@ namespace test_dotnet_core_migration.Controllers
 
         [HttpPost]
         public JsonResult Post(Role role){
-            string query = @"INSERT INTO roles(name, permission) VALUES(@name, @permission);";
+            string query = @"INSERT INTO roles(name, displayname,permission) VALUES(@name, @displayname, @permission)";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
@@ -83,7 +84,8 @@ namespace test_dotnet_core_migration.Controllers
                 using(MySqlCommand mySqlCommand = new MySqlCommand(query, mycon))
                 {
                     mySqlCommand.Parameters.AddWithValue("name", role.Name);
-                    mySqlCommand.Parameters.AddWithValue("permission", role.Permission);
+                    mySqlCommand.Parameters.AddWithValue("displayname", role.DisplayName);
+                    mySqlCommand.Parameters.AddWithValue("permission", JObject.Parse(role.Permission));
 
                     reader = mySqlCommand.ExecuteReader();
                     table.Load(reader);
@@ -99,7 +101,7 @@ namespace test_dotnet_core_migration.Controllers
         [HttpPut]
         public JsonResult Put(Role role){
             string query = @"UPDATE roles
-                            SET name=@name, permission=@permission
+                            SET name=@name, permission=@permission, displayname=@displayname
                             WHERE id=@id";
 
             DataTable table = new DataTable();
@@ -113,6 +115,7 @@ namespace test_dotnet_core_migration.Controllers
                 {
                     mySqlCommand.Parameters.AddWithValue("id", role.Id);
                     mySqlCommand.Parameters.AddWithValue("name", role.Name);
+                    mySqlCommand.Parameters.AddWithValue("displayname", role.DisplayName);
                     mySqlCommand.Parameters.AddWithValue("permission", role.Permission);
 
                     reader = mySqlCommand.ExecuteReader();
