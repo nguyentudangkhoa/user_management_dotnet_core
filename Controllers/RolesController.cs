@@ -85,7 +85,7 @@ namespace test_dotnet_core_migration.Controllers
                 {
                     mySqlCommand.Parameters.AddWithValue("name", role.Name);
                     mySqlCommand.Parameters.AddWithValue("displayname", role.DisplayName);
-                    mySqlCommand.Parameters.AddWithValue("permission", JObject.Parse(role.Permission));
+                    mySqlCommand.Parameters.AddWithValue("permission", role.Permission);
 
                     reader = mySqlCommand.ExecuteReader();
                     table.Load(reader);

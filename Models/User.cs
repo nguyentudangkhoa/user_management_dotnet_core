@@ -24,7 +24,6 @@ namespace test_dotnet_core_migration.Models
 
         public int Status { get; set; }
 
-        [Required]
         public string Password { get; set; }
 
         public DateTime Created { get; set; }

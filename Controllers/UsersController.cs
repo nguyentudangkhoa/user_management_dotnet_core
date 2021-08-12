@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 using test_dotnet_core_migration.Models;
 using test_dotnet_core_migration.Services;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace test_dotnet_core_migration.Controllers
 {
@@ -30,120 +31,35 @@ namespace test_dotnet_core_migration.Controllers
 
         [HttpGet]
         public JsonResult Get(){
-            string query = @"SELECT * FROM users";
-
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
-
-            MySqlDataReader reader;
-            using(MySqlConnection mycon = new MySqlConnection(sqlDataSource)){
-                mycon.Open();
-                using(MySqlCommand mySqlCommand = new MySqlCommand(query, mycon)){
-                    reader = mySqlCommand.ExecuteReader();
-                    table.Load(reader);
-
-                    reader.Close();
-                    mycon.Close();
-                }
-            }
-
-            return new JsonResult(table);
+            return new JsonResult(_userService.getUser());
         }
 
         [HttpGet("{id}")]
         public JsonResult GetSingle(int id){
-            string query = @"SELECT * FROM users where id=@id limit 1;";
-
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
-
-            MySqlDataReader reader;
-            using(MySqlConnection mycon = new MySqlConnection(sqlDataSource)){
-                mycon.Open();
-                using(MySqlCommand mySqlCommand = new MySqlCommand(query, mycon)){
-                    mySqlCommand.Parameters.AddWithValue("id", id);
-                    reader = mySqlCommand.ExecuteReader();
-                    table.Load(reader);
-
-                    reader.Close();
-                    mycon.Close();
-                }
-            }
-
-            return new JsonResult(table);
+            return new JsonResult(_userService.getSingleUser(id));
         }
 
         [HttpPost]
         public JsonResult Post(User user){
-            _userService.Register(user);
+            if(user.Password == null) {
+                return new JsonResult("Vui long nhap password");
+            }
+
+            _userService.addUser(user);
 
             return new JsonResult("Added customer point successful");
         }
 
         [HttpPut]
         public JsonResult Put(User user){
-            string query = @"UPDATE users
-                            SET name=@name,
-                                email=@email,
-                                firstname=@firstname,
-                                lastname=@lastname,
-                                status=@status,
-                                password=@password,
-                                role_id=@role_id
-                            WHERE id=@id";
-
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
-
-            MySqlDataReader reader;
-            using(MySqlConnection mycon = new MySqlConnection(sqlDataSource))
-            {
-                mycon.Open();
-                using(MySqlCommand mySqlCommand = new MySqlCommand(query, mycon))
-                {
-                    mySqlCommand.Parameters.AddWithValue("id", user.Id);
-                    mySqlCommand.Parameters.AddWithValue("name", user.Name);
-                    mySqlCommand.Parameters.AddWithValue("email", user.Email);
-                    mySqlCommand.Parameters.AddWithValue("firstname", user.FirstName);
-                    mySqlCommand.Parameters.AddWithValue("lastname", user.LastName);
-                    mySqlCommand.Parameters.AddWithValue("status", user.Status);
-                    mySqlCommand.Parameters.AddWithValue("password", user.Password);
-                    mySqlCommand.Parameters.AddWithValue("role_id", user.RoleId);
-
-                    reader = mySqlCommand.ExecuteReader();
-                    table.Load(reader);
-
-                    reader.Close();
-                    mycon.Close();
-                }
-            }
+            _userService.UpdateUser(user);
 
             return new JsonResult("Update customer point successful");
         }
 
         [HttpDelete("{id}")]
         public JsonResult Delete(int id){
-            string query = @"DELETE FROM users
-                            WHERE id=@id";
-
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
-
-            MySqlDataReader reader;
-            using(MySqlConnection mycon = new MySqlConnection(sqlDataSource))
-            {
-                mycon.Open();
-                using(MySqlCommand mySqlCommand = new MySqlCommand(query, mycon))
-                {
-                    mySqlCommand.Parameters.AddWithValue("id", id);
-
-                    reader = mySqlCommand.ExecuteReader();
-                    table.Load(reader);
-
-                    reader.Close();
-                    mycon.Close();
-                }
-            }
+            _userService.deleteUser(id);
 
             return new JsonResult("Delete customer point successful");
         }
@@ -152,6 +68,12 @@ namespace test_dotnet_core_migration.Controllers
         [Route("login")]
         public JsonResult Login(User user){
             return new JsonResult(_userService.login(user));
+        }
+
+        [HttpGet]
+        [Route("login_session")]
+        public JsonResult getLoginSession() {
+            return new JsonResult(_userService.getLoginUser());
         }
     }
 }
