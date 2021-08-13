@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "FahXiJFENMK2kfhny6r2jJDFJcktn0k/pgkHQzsSM5i7uIQa9Jb6uIP62mUDd7sDlP32mhwqF2jyl9bIWI8JIg==",
+  "dgSpecHash": "YZKh0ypmCxTQYB0em4tyTQgeKWxDeHM3vJeT+pv1V/lggHxES8D2ceU1XiLkClSPOjGIoJl5TAw99OQjUGUncA==",
   "success": true,
   "projectFilePath": "/Users/nguyentudangkhoa/Downloads/test-vue/user_management_dotnet/test-dotnet-core-migration.csproj",
   "expectedPackageFiles": [
+    "/Users/nguyentudangkhoa/.nuget/packages/automapper/10.1.1/automapper.10.1.1.nupkg.sha512",
+    "/Users/nguyentudangkhoa/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/8.1.1/automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/bcrypt.net-next/4.0.2/bcrypt.net-next.4.0.2.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/bouncycastle.netcore/1.8.5/bouncycastle.netcore.1.8.5.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/google.protobuf/3.14.0/google.protobuf.3.14.0.nupkg.sha512",
@@ -121,7 +123,7 @@
     "/Users/nguyentudangkhoa/.nuget/packages/system.private.datacontractserialization/4.3.0/system.private.datacontractserialization.4.3.0.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/system.private.uri/4.3.2/system.private.uri.4.3.2.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/system.reflection/4.3.0/system.reflection.4.3.0.nupkg.sha512",
-    "/Users/nguyentudangkhoa/.nuget/packages/system.reflection.emit/4.3.0/system.reflection.emit.4.3.0.nupkg.sha512",
+    "/Users/nguyentudangkhoa/.nuget/packages/system.reflection.emit/4.7.0/system.reflection.emit.4.7.0.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/system.reflection.emit.ilgeneration/4.3.0/system.reflection.emit.ilgeneration.4.3.0.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/system.reflection.emit.lightweight/4.3.0/system.reflection.emit.lightweight.4.3.0.nupkg.sha512",
     "/Users/nguyentudangkhoa/.nuget/packages/system.reflection.extensions/4.3.0/system.reflection.extensions.4.3.0.nupkg.sha512",

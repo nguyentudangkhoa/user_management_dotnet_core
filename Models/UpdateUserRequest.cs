@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace test_dotnet_core_migration.Models
 {
-    public class User
+    public class UpdateUserRequest
     {
         [Required]
         [Key]

@@ -11,6 +11,8 @@ using System.Data;
 using test_dotnet_core_migration.Models;
 using test_dotnet_core_migration.Services;
 using BCryptNet = BCrypt.Net.BCrypt;
+using test_dotnet_core_migration.Authorization;
+using AutoMapper;
 
 namespace test_dotnet_core_migration.Controllers
 {
@@ -23,10 +25,19 @@ namespace test_dotnet_core_migration.Controllers
 
         private readonly IUserService _userService;
 
-        public UsersController(IConfiguration configuration, IUserService userService,IWebHostEnvironment webHostEnvironment){
+        private IMapper _mapper;
+
+        public UsersController(
+            IConfiguration configuration,
+             IUserService userService,
+             IWebHostEnvironment webHostEnvironment,
+             IMapper mapper
+        )
+        {
             _configuration = configuration;
             _webHostEnvironment = webHostEnvironment;
             _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -74,6 +85,14 @@ namespace test_dotnet_core_migration.Controllers
         [Route("login_session")]
         public JsonResult getLoginSession() {
             return new JsonResult(_userService.getLoginUser());
+        }
+
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate(AuthenticateRequest model)
+        {
+            var response = _userService.Authenticate(model);
+            return Ok(response);
         }
     }
 }

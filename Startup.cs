@@ -18,6 +18,7 @@ using test_dotnet_core_migration.Services;
 using Microsoft.EntityFrameworkCore;
 using test_dotnet_core_migration.Models;
 using test_dotnet_core_migration.Helpers;
+using test_dotnet_core_migration.Authorization;
 
 namespace test_dotnet_core_migration
 {
@@ -65,6 +66,12 @@ namespace test_dotnet_core_migration
             });
 
             services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<IJwtUtils, JwtUtils>();
+
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,6 +96,11 @@ namespace test_dotnet_core_migration
             {
                 endpoints.MapControllers();
             });
+
+            app.UseMiddleware<ErrorHandlerMiddleware>();
+
+            // custom jwt auth middleware
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseStaticFiles(new StaticFileOptions
             {

@@ -8,7 +8,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using Microsoft.AspNetCore.Http;
+using test_dotnet_core_migration.Authorization;
 using test_dotnet_core_migration.Helpers;
+using AutoMapper;
+
 
 namespace test_dotnet_core_migration.Services
 {
@@ -29,6 +32,8 @@ namespace test_dotnet_core_migration.Services
         DataTable getLoginUser();
 
         User GetById(int id);
+
+        AuthenticateResponse Authenticate(AuthenticateRequest model);
     }
     public class UserService : IUserService
     {
@@ -40,16 +45,25 @@ namespace test_dotnet_core_migration.Services
         private DataContext _context;
         private ISession _session => _httpContextAccessor.HttpContext.Session;
 
-        public UserService(IConfiguration configuration,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        DataContext context
+        private readonly IMapper _mapper;
+
+        private IJwtUtils _jwtUtils;
+
+        public UserService(
+            IConfiguration configuration,
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment,
+            DataContext context,
+            IMapper mapper,
+            IJwtUtils jwtUtils
         )
         {
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
             _webHostEnvironment = webHostEnvironment;
             _context = context;
+            _mapper = mapper;
+            _jwtUtils = jwtUtils;
         }
 
         public DataTable getUser()
@@ -255,6 +269,20 @@ namespace test_dotnet_core_migration.Services
             }
 
             return this.getUserByEmail(_session.GetString("email"));
+        }
+
+        public AuthenticateResponse Authenticate(AuthenticateRequest model)
+        {
+            var user = _context.users.SingleOrDefault(x => x.Email == model.Username);
+
+            // validate
+            if (user == null || !BCryptNet.Verify(model.Password, user.Password))
+                throw new AppException("Username or password is incorrect");
+
+            // authentication successful
+            var response = _mapper.Map<AuthenticateResponse>(user);
+            response.JwtToken = _jwtUtils.GenerateToken(user);
+            return response;
         }
 
         public User GetById(int id)
