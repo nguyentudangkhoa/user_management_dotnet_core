@@ -54,35 +54,15 @@ namespace test_dotnet_core_migration.Controllers
         [HttpPut("{id}")]
         public JsonResult Put(int id, UpdateRoleRequest model){
             _roleService.updateRole(id, model);
-            
+
             return new JsonResult("Update role successful");
         }
 
         [HttpDelete("{id}")]
         public JsonResult Delete(int id){
-            string query = @"DELETE FROM roles
-                            WHERE id=@id";
+            _roleService.removeRole(id);
 
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
-
-            MySqlDataReader reader;
-            using(MySqlConnection mycon = new MySqlConnection(sqlDataSource))
-            {
-                mycon.Open();
-                using(MySqlCommand mySqlCommand = new MySqlCommand(query, mycon))
-                {
-                    mySqlCommand.Parameters.AddWithValue("id", id);
-
-                    reader = mySqlCommand.ExecuteReader();
-                    table.Load(reader);
-
-                    reader.Close();
-                    mycon.Close();
-                }
-            }
-
-            return new JsonResult("Delete customer point successful");
+            return new JsonResult("Delete role successful");
         }
     }
 }

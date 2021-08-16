@@ -9,10 +9,6 @@ namespace test_dotnet_core_migration.Models
     public class RegisterRoleRequest
     {
         [Required]
-        [Key]
-        public int Id { get; set; }
-
-        [Required]
         public string Name { get; set; }
 
         [Required]

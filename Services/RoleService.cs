@@ -25,6 +25,8 @@ namespace test_dotnet_core_migration.Services
         void addRole(RegisterRoleRequest model); 
 
         void updateRole(int id, UpdateRoleRequest model);
+
+        void removeRole(int id);
     }
     public class RoleService : IRoleService
     {
@@ -85,6 +87,13 @@ namespace test_dotnet_core_migration.Services
             role.updated_at = DateTime.Now;
  
             _context.roles.Update(role);
+            _context.SaveChanges();
+        }
+
+        public void removeRole(int id)
+        {
+            var role = this.getSingleRole(id);
+            _context.roles.Remove(role);
             _context.SaveChanges();
         }
     }

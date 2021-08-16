@@ -192,7 +192,8 @@ namespace test_dotnet_core_migration.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _context.users.SingleOrDefault(x => x.Email == model.Username);
+            var user = _context.users.SingleOrDefault(x => x.Email == model.Email);
+            var permissions = _context.roles.SingleOrDefault(x => x.Id == user.Role_Id);
 
             // validate
             if (user == null || !BCryptNet.Verify(model.Password, user.Password))
@@ -201,6 +202,7 @@ namespace test_dotnet_core_migration.Services
             // authentication successful
             var response = _mapper.Map<AuthenticateResponse>(user);
             response.JwtToken = _jwtUtils.GenerateToken(user);
+            response.Permission = permissions.Permission;
 
             _session.SetString("user_name", user.Name);
             _session.SetString("email", user.Email);
