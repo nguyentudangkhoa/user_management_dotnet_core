@@ -11,23 +11,19 @@ namespace test_dotnet_core_migration.Models
     {
 
         [Required]
-        public string Name { get; set; }
+        public string name { get; set; }
 
         [Required]
-        public string Email { get; set; }
+        public string email { get; set; }
 
-        public string FirstName { get; set; }
+        public string firstname { get; set; }
 
-        public string LastName { get; set; }
+        public string lastname { get; set; }
 
-        public int Status { get; set; }
+        public bool status { get; set; }
 
-        public string Password { get; set; }
-        
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{yyyy-MM-dd HH:mm:ss}")]
-        public DateTime updated_at { get; set; }
+        public string password { get; set; }
 
-        public int Role_Id { get; set; }
+        public int role_id { get; set; }
     }
 }

@@ -11,33 +11,21 @@ namespace test_dotnet_core_migration.Models
     public class RegisterUserRequest
     {
         [Required]
-        [Key]
-        public int Id { get; set; }
+        public string name { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string email { get; set; }
+
+        public string firstname { get; set; }
+
+        public string lastname { get; set; }
+
+        public bool status { get; set; }
 
         [Required]
-        public string Email { get; set; }
-
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-        public int Status { get; set; }
+        public string password { get; set; }
 
         [Required]
-        public string Password { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{yyyy-MM-dd HH:mm:ss}")]
-        public DateTime created_at { get; set; }
-        
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{yyyy-MM-dd HH:mm:ss}")]
-        public DateTime updated_at { get; set; }
-
-        [Required]
-        public int Role_Id { get; set; }
+        public int role_id { get; set; }
     }
 }

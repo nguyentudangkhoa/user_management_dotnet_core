@@ -52,7 +52,7 @@ namespace test_dotnet_core_migration.Controllers
 
         [HttpPost]
         public JsonResult Post(RegisterUserRequest model){
-            if(model.Password == null) {
+            if(model.password == null) {
                 return new JsonResult("Password is required");
             }
 

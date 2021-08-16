@@ -12,19 +12,19 @@ namespace test_dotnet_core_migration.Models
     {
         [Required]
         [Key]
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string name { get; set; }
 
         [Required]
-        public string Email { get; set; }
+        public string email { get; set; }
 
-        public string FirstName { get; set; }
+        public string firstname { get; set; }
 
-        public string LastName { get; set; }
+        public string lastname { get; set; }
 
-        public int Status { get; set; }
+        public bool status { get; set; }
         
         public string Password { get; set; }
 
@@ -37,6 +37,6 @@ namespace test_dotnet_core_migration.Models
         public DateTime updated_at { get; set; }
 
         [Required]
-        public int Role_Id { get; set; }
+        public int role_id { get; set; }
     }
 }

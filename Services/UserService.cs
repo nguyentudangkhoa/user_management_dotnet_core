@@ -68,17 +68,18 @@ namespace test_dotnet_core_migration.Services
         public IEnumerable<GetUser> getUser()
         {
             var getUser = (from user in _context.users
-                 join role in _context.roles on user.Role_Id equals role.Id
+                 join role in _context.roles on user.role_id equals role.id
                  select new GetUser {
-                     Id = user.Id,
-                     Name = user.Name,
-                     Email = user.Email,
-                     FirstName = user.FirstName,
-                     LastName = user.LastName,
-                     Password = user.Password,
-                     Status = user.Status,
-                     Role_Id = user.Role_Id,
-                     Permission = role.Permission,
+                     id = user.id,
+                     name = user.name,
+                     email = user.email,
+                     firstname = user.firstname,
+                     lastname = user.lastname,
+                     password = user.password,
+                     status = user.status,
+                     role_id = user.role_id,
+                     permissions = role.permission,
+                     role_name = role.name,
                      created_at = user.created_at,
                      updated_at = user.updated_at
                  });
@@ -89,18 +90,19 @@ namespace test_dotnet_core_migration.Services
         public GetUser getSingleUser(int id)
         {
              var getUser = (from user in _context.users
-                 join role in _context.roles on user.Role_Id equals role.Id
-                 where user.Id == id
+                 join role in _context.roles on user.role_id equals role.id
+                 where user.id == id
                  select new GetUser {
-                     Id = user.Id,
-                     Name = user.Name,
-                     Email = user.Email,
-                     FirstName = user.FirstName,
-                     LastName = user.LastName,
-                     Password = user.Password,
-                     Status = user.Status,
-                     Role_Id = user.Role_Id,
-                     Permission = role.Permission,
+                     id = user.id,
+                     name = user.name,
+                     email = user.email,
+                     firstname = user.firstname,
+                     lastname = user.lastname,
+                     password = user.password,
+                     status = user.status,
+                     role_id = user.role_id,
+                     permissions = role.permission,
+                     role_name = role.name,
                      created_at = user.created_at,
                      updated_at = user.updated_at
                  }).SingleOrDefault();
@@ -109,20 +111,20 @@ namespace test_dotnet_core_migration.Services
         }
 
         public void addUser(RegisterUserRequest model) {
-            if (_context.users.Any(x => x.Name == model.Name))
-                throw new AppException("Username '" + model.Name + "' is already taken");
+            if (_context.users.Any(x => x.name == model.name))
+                throw new AppException("Username '" + model.name + "' is already taken");
  
-            if (_context.users.Any(x => x.Email == model.Email))
-                throw new AppException("Email '" + model.Email + "' is already taken");
+            if (_context.users.Any(x => x.email == model.email))
+                throw new AppException("Email '" + model.email + "' is already taken");
  
-            if (! _context.roles.Any(x=>x.Id == model.Role_Id))
-                throw new AppException("Role id '" + model.Role_Id + "' is not existed");
+            if (! _context.roles.Any(x=>x.id == model.role_id))
+                throw new AppException("Role id '" + model.role_id + "' is not existed");
  
             // map model to new user object
             var user = _mapper.Map<User>(model);
  
             // hash password
-            user.Password = BCryptNet.HashPassword(model.Password);
+            user.password = BCryptNet.HashPassword(model.password);
             user.created_at = DateTime.Now;
             user.updated_at = DateTime.Now;
             // save user
@@ -134,21 +136,21 @@ namespace test_dotnet_core_migration.Services
             var user = getUser(id);
  
             // validate
-            if (model.Name != user.Name && _context.users.Any(x => x.Name == model.Name))
-                throw new AppException("Username '" + model.Name + "' is already taken");
+            if (model.name != user.name && _context.users.Any(x => x.name == model.name))
+                throw new AppException("Username '" + model.name + "' is already taken");
  
-            if (model.Email != user.Email && _context.users.Any(x => x.Email == model.Email))
-                throw new AppException("Email '" + model.Email + "' is already taken");
+            if (model.email != user.email && _context.users.Any(x => x.email == model.email))
+                throw new AppException("Email '" + model.email + "' is already taken");
  
-            if (! _context.roles.Any(x=>x.Id == model.Role_Id))
-                throw new AppException("Role id '" + model.Role_Id + "' is not existed");
+            if (! _context.roles.Any(x=>x.id == model.role_id))
+                throw new AppException("Role id '" + model.role_id + "' is not existed");
  
             // copy model to user and save
             _mapper.Map(model, user);
  
             // hash password if it was entered
-            if (!string.IsNullOrEmpty(model.Password))
-                user.Password = BCryptNet.HashPassword(model.Password);
+            if (!string.IsNullOrEmpty(model.password))
+                user.password = BCryptNet.HashPassword(model.password);
             
             user.updated_at = DateTime.Now;
  
@@ -165,18 +167,21 @@ namespace test_dotnet_core_migration.Services
 
         public GetUser getUserByEmail(string email) {
             var getUser = (from user in _context.users
-                 join role in _context.roles on user.Role_Id equals role.Id
-                 where user.Email == email
+                 join role in _context.roles on user.role_id equals role.id
+                 where user.email == email
                  select new GetUser {
-                     Id = user.Id,
-                     Name = user.Name,
-                     Email = user.Email,
-                     FirstName = user.FirstName,
-                     LastName = user.LastName,
-                     Password = user.Password,
-                     Status = user.Status,
-                     Role_Id = user.Role_Id,
-                     Permission = role.Permission,
+                     id = user.id,
+                     name = user.name,
+                     email = user.email,
+                     firstname = user.firstname,
+                     lastname = user.lastname,
+                     password = user.password,
+                     status = user.status,
+                     role_id = user.role_id,
+                     permissions = role.permission,
+                     role_name = role.name,
+                     created_at = user.created_at,
+                     updated_at = user.updated_at
                  }).SingleOrDefault();
 
             return getUser;
@@ -192,20 +197,20 @@ namespace test_dotnet_core_migration.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _context.users.SingleOrDefault(x => x.Email == model.Email);
-            var permissions = _context.roles.SingleOrDefault(x => x.Id == user.Role_Id);
+            var user = _context.users.SingleOrDefault(x => x.email == model.email);
+            var permissions = _context.roles.SingleOrDefault(x => x.id == user.role_id);
 
             // validate
-            if (user == null || !BCryptNet.Verify(model.Password, user.Password))
+            if (user == null || !BCryptNet.Verify(model.password, user.password))
                 throw new AppException("Username or password is incorrect");
 
             // authentication successful
             var response = _mapper.Map<AuthenticateResponse>(user);
             response.JwtToken = _jwtUtils.GenerateToken(user);
-            response.Permission = permissions.Permission;
+            response.permission = permissions.permission;
 
-            _session.SetString("user_name", user.Name);
-            _session.SetString("email", user.Email);
+            _session.SetString("user_name", user.name);
+            _session.SetString("email", user.email);
 
             return response;
         }

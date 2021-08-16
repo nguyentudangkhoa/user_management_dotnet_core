@@ -7,18 +7,18 @@ namespace test_dotnet_core_migration.Models
 {
     public class AuthenticateResponse
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
-        public string Name { get; set; }
-        
-        public string Email { get; set; }
+        public string name { get; set; }
 
-        public string FirstName { get; set; }
+        public string email { get; set; }
 
-        public string LastName { get; set; }
+        public string firstname { get; set; }
+
+        public string lastname { get; set; }
 
         public string JwtToken { get; set; }
 
-        public string Permission { get; set; }
+        public string permission { get; set; }
     }
 }
