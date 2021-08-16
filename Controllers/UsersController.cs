@@ -51,34 +51,28 @@ namespace test_dotnet_core_migration.Controllers
         }
 
         [HttpPost]
-        public JsonResult Post(User user){
-            if(user.Password == null) {
+        public JsonResult Post(RegisterUserRequest model){
+            if(model.Password == null) {
                 return new JsonResult("Password is required");
             }
 
-            _userService.addUser(user);
+            _userService.addUser(model);
 
-            return new JsonResult("Added customer point successful");
+            return new JsonResult("Added user successful");
         }
 
-        [HttpPut]
-        public JsonResult Put(User user){
-            _userService.UpdateUser(user);
+        [HttpPut("{id}")]
+        public JsonResult Put(int id, UpdateUserRequest model){
+            _userService.UpdateUser(id, model);
 
-            return new JsonResult("Update customer point successful");
+            return new JsonResult("Update user successful");
         }
 
         [HttpDelete("{id}")]
         public JsonResult Delete(int id){
             _userService.deleteUser(id);
 
-            return new JsonResult("Delete customer point successful");
-        }
-
-        [HttpPost]
-        [Route("login")]
-        public JsonResult Login(User user){
-            return new JsonResult(_userService.login(user));
+            return new JsonResult("Delete user successful");
         }
 
         [HttpGet]

@@ -67,6 +67,8 @@ namespace test_dotnet_core_migration
 
             services.AddScoped<IUserService, UserService>();
 
+            services.AddScoped<IRoleService, RoleService>();
+
             services.AddScoped<IJwtUtils, JwtUtils>();
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));

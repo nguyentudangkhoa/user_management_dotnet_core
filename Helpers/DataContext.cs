@@ -19,5 +19,6 @@ namespace test_dotnet_core_migration.Helpers
           options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), serverVersion);
         }
         public DbSet<User> users { get; set; }
+        public DbSet<Role> roles { get; set; }
     }
 }
