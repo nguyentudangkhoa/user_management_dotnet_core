@@ -192,7 +192,25 @@ namespace test_dotnet_core_migration.Services
                 return this.getUserByEmail("");
             }
 
-            return this.getUserByEmail(_session.GetString("email"));
+            var getUser = (from user in _context.users
+                 join role in _context.roles on user.role_id equals role.id
+                 where user.email == _session.GetString("email")
+                 select new GetUser {
+                     id = user.id,
+                     name = user.name,
+                     email = user.email,
+                     firstname = user.firstname,
+                     lastname = user.lastname,
+                     password = user.password,
+                     status = user.status,
+                     role_id = user.role_id,
+                     permissions = role.permission,
+                     role_name = role.name,
+                     created_at = user.created_at,
+                     updated_at = user.updated_at
+                 }).SingleOrDefault();
+
+            return getUser;
         }
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
@@ -208,6 +226,7 @@ namespace test_dotnet_core_migration.Services
             var response = _mapper.Map<AuthenticateResponse>(user);
             response.JwtToken = _jwtUtils.GenerateToken(user);
             response.permission = permissions.permission;
+            response.role_name = permissions.name;
 
             _session.SetString("user_name", user.name);
             _session.SetString("email", user.email);
