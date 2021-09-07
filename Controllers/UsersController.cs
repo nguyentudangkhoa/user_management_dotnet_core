@@ -16,6 +16,7 @@ using AutoMapper;
 
 namespace test_dotnet_core_migration.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -50,6 +51,7 @@ namespace test_dotnet_core_migration.Controllers
             return new JsonResult(_userService.getSingleUser(id));
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public JsonResult Post(RegisterUserRequest model){
             if(model.password == null) {

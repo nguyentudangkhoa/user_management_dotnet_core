@@ -297,3 +297,4 @@
 /Users/nguyentudangkhoa/Downloads/test-vue/user_management_dotnet/bin/Debug/net5.0/Pomelo.EntityFrameworkCore.MySql.dll
 /Users/nguyentudangkhoa/Downloads/test-vue/user_management_dotnet/bin/Debug/net5.0/AutoMapper.dll
 /Users/nguyentudangkhoa/Downloads/test-vue/user_management_dotnet/bin/Debug/net5.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+/Users/nguyentudangkhoa/Downloads/test-vue/user_management_dotnet/bin/Debug/net5.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll

@@ -24,7 +24,7 @@ namespace test_dotnet_core_migration.Authorization
             var userId = jwtUtils.ValidateToken(token);
             if (userId != null)
             {
-                context.Items["Users"] = userService.GetById(userId.Value);
+                context.Items["User"] = userService.GetById(userId.Value);
             }
 
             await _next(context);

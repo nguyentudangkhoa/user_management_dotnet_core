@@ -18,9 +18,5 @@ namespace test_dotnet_core_migration.Models
         public string lastname { get; set; }
 
         public string JwtToken { get; set; }
-
-        public string permission { get; set; }
-
-        public string role_name { get; set; }
     }
 }

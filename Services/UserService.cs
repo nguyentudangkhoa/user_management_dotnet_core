@@ -3,8 +3,6 @@ using BCryptNet = BCrypt.Net.BCrypt;
 using System.Collections.Generic;
 using System.Linq;
 using test_dotnet_core_migration.Models;
-using MySql.Data.MySqlClient;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using System.Data;
@@ -12,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using test_dotnet_core_migration.Authorization;
 using test_dotnet_core_migration.Helpers;
 using AutoMapper;
+using System.IdentityModel.Tokens.Jwt;
 
 
 namespace test_dotnet_core_migration.Services
@@ -216,7 +215,6 @@ namespace test_dotnet_core_migration.Services
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
             var user = _context.users.SingleOrDefault(x => x.email == model.email);
-            var permissions = _context.roles.SingleOrDefault(x => x.id == user.role_id);
 
             // validate
             if (user == null || !BCryptNet.Verify(model.password, user.password))
@@ -225,8 +223,6 @@ namespace test_dotnet_core_migration.Services
             // authentication successful
             var response = _mapper.Map<AuthenticateResponse>(user);
             response.JwtToken = _jwtUtils.GenerateToken(user);
-            response.permission = permissions.permission;
-            response.role_name = permissions.name;
 
             _session.SetString("user_name", user.name);
             _session.SetString("email", user.email);
